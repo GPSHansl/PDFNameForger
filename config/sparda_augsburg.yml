@@ -1,0 +1,36 @@
+# sparda_augsburg account statement configuration for PDFNameForger
+name: sparda_augsburg
+file_pattern: '^[0-9]+_[0-9]{4}_Nr\.[0-9]{3}_Kontoauszug_vom_[0-9]{4}\.[0-9]{2}\.[0-9]{2}_[0-9]{14}(?:\.pdf)?$'
+output_format: 'Kontoauszug_{iban}_Nr_{jahr}{auszugsnummer}_{datum_yyyymmdd}.pdf'
+dry_run: false
+
+# Variables extracted from filename
+filename_variables:
+  - name: jahr
+    pattern: '^[0-9]+_([0-9]{4})_Nr\.[0-9]{3}_Kontoauszug_vom_[0-9]{4}\.[0-9]{2}\.[0-9]{2}_[0-9]{14}(?:\.pdf)?$'
+    group: 1
+
+  - name: auszugsnummer
+    pattern: '^[0-9]+_[0-9]{4}_Nr\.([0-9]{3})_Kontoauszug_vom_[0-9]{4}\.[0-9]{2}\.[0-9]{2}_[0-9]{14}(?:\.pdf)?$'
+    group: 1
+    format_spec: '02d'
+
+# Variables extracted from PDF text
+variables:
+  - name: datum_yyyymmdd
+    pattern: '(?:erstellt am)\s*(\d{1,2}\.\d{1,2}\.\d{4})'
+    optional: false
+    format_spec: 'date:%Y%m%d'
+
+  - name: iban
+    pattern: 'IBAN[:\s]*([A-Z]{2}[0-9]{2}(?:\s?[0-9]{2,4}){2,7})'
+    optional: false
+    format_spec: 'remove_spaces'
+
+  - name: kontonummer
+    pattern: '(?:Kontonummer)\s*([0-9]+(?:\.\.\.[0-9]{2})?)'
+    optional: true
+
+  - name: kontoauszugsnummer_pdf
+    pattern: 'Nr\.\s*([0-9]{1,4}/[0-9]{4})'
+    optional: true
