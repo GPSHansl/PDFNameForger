@@ -20,13 +20,13 @@ function show_help() {
 
 case "${1:-run}" in
     run)
-        docker-compose run --rm pdf-renamer
+        docker-compose run --rm pdfnameforger
         ;;
     test)
-        docker-compose run --rm -it pdf-renamer python /app/scripts/test_patterns.py
+        docker-compose run --rm -it pdfnameforger python /app/scripts/test_patterns.py
         ;;
     bash)
-        docker-compose run --rm -it pdf-renamer bash
+        docker-compose run --rm -it pdfnameforger bash
         ;;
     build)
         docker-compose build

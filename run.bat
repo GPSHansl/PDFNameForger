@@ -14,15 +14,15 @@ echo.
 goto help
 
 :run
-docker-compose run --rm pdf-renamer
+docker-compose run --rm pdfnameforger
 exit /b 0
 
 :test
-docker-compose run --rm -it pdf-renamer python /app/scripts/test_patterns.py
+docker-compose run --rm -it pdfnameforger python /app/scripts/test_patterns.py
 exit /b 0
 
 :bash
-docker-compose run --rm -it pdf-renamer bash
+docker-compose run --rm -it pdfnameforger bash
 exit /b 0
 
 :build
