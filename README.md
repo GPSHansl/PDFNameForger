@@ -26,7 +26,7 @@ PDFNameForger/
 │   └── renamer.py        # Renaming logic
 ├── config/               # Configuration files
 │   ├── sim.de.yml        # Example: sim.de
-│   └── TEMPLATE.yml      # Template for new providers
+│   └── _TEMPLATE.yml     # Template for new providers (ignored)
 ├── input/                # Input PDFs (volume)
 └── output/               # Renamed PDFs (volume)
 ```

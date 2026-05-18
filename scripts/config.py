@@ -90,6 +90,8 @@ class ConfigManager:
             return
         
         for config_file in self.config_dir.glob("*.yml"):
+            if config_file.name.startswith("_"):
+                continue
             try:
                 with open(config_file, 'r', encoding='utf-8') as f:
                     data = yaml.safe_load(f)
