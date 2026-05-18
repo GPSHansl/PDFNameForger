@@ -1,0 +1,67 @@
+# Template configuration file for PDFNameForger
+
+# Template configuration file for PDFNameForger
+# Copy this file as 'config/my_provider.yml' and customize it
+
+name: MyProvider
+# Wildcard pattern or Regex for files to process
+# Wildcard: "*.pdf", "invoice_*.pdf"
+# Regex: "B[0-9]+\\.pdf", "invoice_[0-9]{6}\\.pdf"
+file_pattern: "*.pdf"
+
+# Format string for new filename
+# {variable_name} is replaced with extracted values
+output_format: "{invoice_number}_{date}.pdf"
+
+# Dry-Run mode: true = only show, false = actually rename
+dry_run: true
+
+# (OPTIONAL) Extract variables from filename
+# Example: "B623258454.pdf" → extracts "623258454"
+filename_variables:
+  - name: filename_number
+    pattern: "B([0-9]+)\\.pdf"  # Regex with capturing group
+    group: 1  # Which group to extract (1-based)
+    # format_spec: "08d"  # Optional: formatting (leading zeros, date, etc.)
+
+# Variables extracted from PDF text
+variables:
+  # REQUIRED FIELD: Invoice Number
+  - name: invoice_number
+    # Regex pattern (with capturing group in parentheses)
+    pattern: "(?:Invoice-No|Invoice Number)[\\s:\\.]*([\\d]+)"
+    optional: false  # false = MUST be present
+    # format_spec: "08d"  # Optional: formatting
+  
+  # REQUIRED FIELD: Date
+  - name: date
+    pattern: "(?:Invoice Date|Date)[\\s:]*([\\d{1,2}[.\\-/]\\d{1,2}[.\\-/]\\d{4})"
+    optional: false
+    format_spec: "date:%Y-%m-%d"  # Parse and output as YYYY-MM-DD
+  
+  # OPTIONAL FIELD: Amount
+  - name: amount
+    pattern: "(?:Total Amount|Total|Amount)[\\s:]*([0-9,.]+)"
+    optional: true
+
+
+# REGEX TIPS:
+# - \\d = digit, \\w = letter/digit/_, + = one or more, * = zero or more
+# - (...) = Capturing Group (will be extracted), (?:...) = Non-capturing Group
+# - [A-Za-z] = letters, [0-9] = digits, \\s = whitespace
+# - | = OR, ? = optional (0 or 1)
+# - Test at https://regex101.com/ (Python flavor)
+
+# FORMAT_SPEC OPTIONS:
+# - "05d" = 5-digit with leading zeros (123 -> 00123)
+# - "08d" = 8-digit with leading zeros
+# - "date:%Y-%m-%d" = ISO date
+# - "date:%d.%m.%Y" = German date format
+# - "date:%B %Y" = Full month + year (e.g. "May 2024")
+# - No format_spec = value is used as-is
+
+# FILENAME_VARIABLES:
+# - name: Unique name of the variable
+# - pattern: Regex with at least one capturing group
+# - group: Which group to extract (1-based, default: 1)
+# - format_spec: Optional, same as PDF variables

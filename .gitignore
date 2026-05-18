@@ -1,0 +1,16 @@
+input/*
+output/*
+!input/.gitkeep
+!output/.gitkeep
+__pycache__/
+*.pyc
+.env
+.vscode/
+.idea/
+*.egg-info/
+dist/
+build/
+.pytest_cache/
+*.log
+debug.log
+.DS_Store

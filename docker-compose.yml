@@ -1,0 +1,13 @@
+services:
+  pdfnameforger:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: pdfnameforger-dev
+    volumes:
+      - ./scripts:/app/scripts
+      - ./config:/app/config
+      - ./input:/app/input
+      - ./output:/app/output
+    environment:
+      - PYTHONUNBUFFERED=1

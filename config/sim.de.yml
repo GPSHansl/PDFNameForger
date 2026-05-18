@@ -1,0 +1,32 @@
+﻿# sim.de invoice configuration for PDFNameForger
+name: sim.de
+file_pattern: 'B[0-9]+(_[^.]*)?\.pdf'
+output_format: '{kundennummer}_{telefonnummer}_{rechnungsdatum_yyyymmdd}_{originaldateiname}_Rechnung_{rechnungsdatum_ddmmyyyy}.pdf'
+dry_run: false
+
+# Variables extracted from filename
+filename_variables:
+  - name: dateiname_nummer
+    pattern: '(B[0-9]+)(_[^.]*)?\.pdf'
+    group: 1
+
+# Variables extracted from PDF text
+variables:
+  - name: kundennummer
+    pattern: '(?:Kundennummer|Kundenr|Kundennr|Kunden-Nr|Kunden Nr)[.]*[\s:]*([0-9A-Za-z]+)'
+    optional: false
+  
+  - name: telefonnummer
+    pattern: '(?:Telefon|Telefonnummer|Anschluss|Rufnummer)[\s:]*([0-9\-\s]+)'
+    optional: false
+    format_spec: "remove_spaces"
+  
+  - name: rechnungsdatum_yyyymmdd
+    pattern: 'Datum\s+(\d{1,2}\.\d{1,2}\.\d{4})'
+    optional: false
+    format_spec: "date:%Y%m%d"
+  
+  - name: rechnungsdatum_ddmmyyyy
+    pattern: 'Datum\s+(\d{1,2}\.\d{1,2}\.\d{4})'
+    optional: false
+    format_spec: "date:%d.%m.%Y"
